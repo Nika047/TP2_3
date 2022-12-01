@@ -2,7 +2,6 @@
 #include <string>
 #include <conio.h>
 #include <windows.h>
-
 #include "Keeper.h"
 #include "Order.h"
 
@@ -20,28 +19,15 @@ int main()
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	//string commands[] = {
-	//	"Показать заметки",
-	//	"Добавить заметку",
-	//	"Найти заметку",
-	//	"Редактировать заметку",
-	//	"Удалить заметку",
-	//	"\033[33mСохранить данные\033[0m",
-	//	"\033[32mЗагрузить данные\033[0m",
-	//	"\033[31mВыход\033[0m",
-	//};
-
 	while (1) 
 	{
 		cout << "Меню: \n";
 		cout << "1. Открыть структуру \n";
-		cout << "2. Добавить расчетный счет плательщика \n";
-		cout << "3. Добавить расчетный счет получателя \n";
-		cout << "4. Добавить перечисляемую сумму в рублях \n";
-		cout << "5. Редактировать \n";
-		cout << "6. Удалить \n";
-		cout << "7. Сохранить в файл \n";
-		cout << "8. Загрузить из файла \n";
+		cout << "2. Добавить структуру \n";
+		cout << "3. Редактировать \n";
+		cout << "4. Удалить \n";
+		cout << "5. Сохранить в файл \n";
+		cout << "6. Загрузить из файла \n";
 		cout << "ESC. Выход \n\n";
 		cout << "Выберите нужное действие: ";
 
@@ -51,42 +37,31 @@ int main()
 		switch (command)
 		{
 		case '1':
-			//fabric.print();
+			major.print();
 			break;
 
 		case '2':
-			//fabric.add(new Furniture());
+			major.add(new Order());
 			break;
 
 		case '3':
-			//fabric.add(new Car());
+			editMenu();
 			break;
 
 		case '4':
-			//fabric.add(new Worker());
+			removeMenu();
 			break;
 
 		case '5':
-			//editMenu();
+			major.save();
 			break;
 
 		case '6':
-			//removeMenu();
-			break;
-
-		case '7':
-			//fabric.save();
-			break;
-
-		case '8':
-			/*fabric.load();*/
+			major.load();
 			break;
 
 		case 27:
 			exit(0);
-
-		default:
-			break;
 		}
 		system("@cls||clear");
 	}

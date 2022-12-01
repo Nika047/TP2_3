@@ -1,4 +1,4 @@
-#include "Keeper.h"
+ï»¿#include "Keeper.h"
 #include <conio.h>
 #include "Order.h"
 
@@ -46,92 +46,143 @@ void Keeper::save()
 			out << *structure[i];
 			out << "\n";
 		}
-		cout << "Ñîõğàíåíî!\n";
+		cout << "Ğ¡Ğ¾Ñ…Ñ€Ğ°Ğ½ĞµĞ½Ğ¾!\n";
 	}
 
 	else
-		cout << "Íå óäàëîñü îòêğûòü ôàéë!";
+		cout << "ĞĞµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ Ğ¾Ñ‚ĞºÑ€Ñ‹Ñ‚ÑŒ Ñ„Ğ°Ğ¹Ğ»!";
 
 	out.close();
-	cout << endl << "Íàæìèòå ëşáóş êëàâèøó ÷òîáû âåğíóòñÿ â ìåíş\n";
+	cout << endl << "ĞĞ°Ğ¶Ğ¼Ğ¸Ñ‚Ğµ Ğ»ÑĞ±ÑƒÑ ĞºĞ»Ğ°Ğ²Ğ¸ÑˆÑƒ Ñ‡Ñ‚Ğ¾Ğ±Ñ‹ Ğ²ĞµÑ€Ğ½ÑƒÑ‚ÑÑ Ğ² Ğ¼ĞµĞ½Ñ\n";
 	_getch();
 }
 
-void Keeper::load() // ???????????????
+void Keeper::load()
 {
-	string line;
-	ifstream in(fileName);
+	int line;
+	ifstream in("struct.txt");
 
 	try
 	{
+		const int strNums = 6;
+
 		if (!in.is_open())
-			throw std::runtime_error("Íå óäàëîñü îòêğûòü ôàéë");
+			throw std::runtime_error("ĞĞµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ Ğ¾Ñ‚ĞºÑ€Ñ‹Ñ‚ÑŒ Ñ„Ğ°Ğ¹Ğ»");
 
-		getline(in, line);
+		int numberOfLines = count(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>(), '\n');
+		if (numberOfLines <= 0 || numberOfLines % strNums != 0)
+			throw std::runtime_error("Ğ¤Ğ°Ğ¹Ğ» Ğ¿ÑƒÑÑ‚ Ğ¸Ğ»Ğ¸ Ğ¿Ğ¾Ğ²Ñ€ĞµĞ¶Ğ´ĞµĞ½");
 
-		int structCount = stoi(line);
-		if (structCount <= 0)
-			throw std::runtime_error("Ôàéë ïóñò èëè ïîâğåæäåí");
+		in.seekg(0);
 
-		int counter = 0;
-		Order** newList = new Order * [structCount];
+		int lineNum = 0;
+		Order** newList = new Order * [(int)numberOfLines / strNums];
+		int lines[strNums];
 
-//			const int strNums = 6;
-//
-//			if (!in.is_open()) throw std::runtime_error("Íå óäàëîñü îòêğûòü ôàéë.");
-//
-//			int numberOfLines = count(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>(), '\n'); // ñ÷èòàåì êîëè÷åñâòî ñòğîê â ôàéëå
-//			if (numberOfLines <= 0 || numberOfLines % strNums != 0) throw std::runtime_error("Ôàéë ïîâğåæäåí!");
-//
-//			in.seekg(0);
-//
-//			int lineNum = 0;
-//			Note **newList = new Note*[(int) numberOfLines / strNums];
-//			string lines[strNums];
-
-		while (getline(in, line))
+		while (in >> line)
 		{
-			if (string("Ìåáåëü") == line)
-				newList[counter++] = new Furniture(in);
+			int str = line;
 
-			if (string("Ğàáîòíèê") == line)
-				newList[counter++] = new Worker(in);
+			lines[(lineNum++) % strNums] = str;
 
-			if (string("Ìàøèíà") == line)
-				newList[counter++] = new Car(in);
+			int pos = lineNum / strNums - 1;
+
+			if (lineNum % strNums == 0)
+				newList[pos] = new Order(lines);
 		}
-			//			{
-			//				string str = line;
-			//
-			//				lines[(lineNum++) % strNums] = str;
-			//				
-			//				int pos = lineNum / strNums - 1;
-			//
-			//				if (lineNum % strNums == 0) {
-			//					newList[pos] = new Note(lines);
-			//				}
-			//			}
 
 		delete[]structure;
 		structure = newList;
-		structureSize = structCount;
-		cout << "Óñïåøíî çàãğóæåí(î) " << structureSize << " îáúåêò(îâ)\n";
+		structureSize = (int)numberOfLines / strNums;
+
+		cout << "Ğ£ÑĞ¿ĞµÑˆĞ½Ğ¾ Ğ·Ğ°Ğ³Ñ€ÑƒĞ¶ĞµĞ½o";
 	}
 
 	catch (std::runtime_error err)
 	{
-		cout << err.what() << "\n";
+		cout << err.what() << endl;
 	}
 
 	catch (...)
 	{
-		cout << "Íåèçâåñòíàÿ îøèáêà";
+		cout << "ĞĞµĞ¸Ğ·Ğ²ĞµÑÑ‚Ğ½Ğ°Ñ Ğ¾ÑˆĞ¸Ğ±ĞºĞ°";
 	}
 
 	in.close();
-	cout << "\nÍàæìèòå ëşáóş êëàâèøó ÷òîáû âåğíóòñÿ â ìåíş \n";
-	_getch();
-} // 
+
+	cout << endl << "\nĞĞ°Ğ¶Ğ¼Ğ¸Ñ‚Ğµ Ğ»ÑĞ±ÑƒÑ ĞºĞ»Ğ°Ğ²Ğ¸ÑˆÑƒ Ñ‡Ñ‚Ğ¾Ğ±Ñ‹ Ğ²ĞµÑ€Ğ½ÑƒÑ‚ÑÑ Ğ² Ğ¼ĞµĞ½Ñ \n";
+	cin.get();
+}
+
+//void Keeper::load() // ???????????????
+//{
+//	string line;
+//	ifstream in(fileName);
+//
+//	try
+//	{
+//		if (!in.is_open())
+//			throw std::runtime_error("ĞĞµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ Ğ¾Ñ‚ĞºÑ€Ñ‹Ñ‚ÑŒ Ñ„Ğ°Ğ¹Ğ»");
+//
+//		getline(in, line);
+//
+//		int structCount = stoi(line);
+//		if (structCount <= 0)
+//			throw std::runtime_error("Ğ¤Ğ°Ğ¹Ğ» Ğ¿ÑƒÑÑ‚ Ğ¸Ğ»Ğ¸ Ğ¿Ğ¾Ğ²Ñ€ĞµĞ¶Ğ´ĞµĞ½");
+//
+//		int counter = 0;
+//		Order** newList = new Order * [structCount];
+//
+////			const int strNums = 6;
+////
+////			if (!in.is_open()) throw std::runtime_error("ĞĞµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ Ğ¾Ñ‚ĞºÑ€Ñ‹Ñ‚ÑŒ Ñ„Ğ°Ğ¹Ğ».");
+////
+////			int numberOfLines = count(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>(), '\n'); // ÑÑ‡Ğ¸Ñ‚Ğ°ĞµĞ¼ ĞºĞ¾Ğ»Ğ¸Ñ‡ĞµÑĞ²Ñ‚Ğ¾ ÑÑ‚Ñ€Ğ¾Ğº Ğ² Ñ„Ğ°Ğ¹Ğ»Ğµ
+////			if (numberOfLines <= 0 || numberOfLines % strNums != 0) throw std::runtime_error("Ğ¤Ğ°Ğ¹Ğ» Ğ¿Ğ¾Ğ²Ñ€ĞµĞ¶Ğ´ĞµĞ½!");
+////
+////			in.seekg(0);
+////
+////			int lineNum = 0;
+////			Note **newList = new Note*[(int) numberOfLines / strNums];
+////			string lines[strNums];
+//
+//		while (getline(in, line))
+//		{
+//			if (string("ĞœĞµĞ±ĞµĞ»ÑŒ") == line)
+//				newList[counter++] = new Order(in);
+//		}
+//			//			{
+//			//				string str = line;
+//			//
+//			//				lines[(lineNum++) % strNums] = str;
+//			//				
+//			//				int pos = lineNum / strNums - 1;
+//			//
+//			//				if (lineNum % strNums == 0) {
+//			//					newList[pos] = new Note(lines);
+//			//				}
+//			//			}
+//
+//		delete[]structure;
+//		structure = newList;
+//		structureSize = structCount;
+//		cout << "Ğ£ÑĞ¿ĞµÑˆĞ½Ğ¾ Ğ·Ğ°Ğ³Ñ€ÑƒĞ¶ĞµĞ½(Ğ¾) " << structureSize << " Ğ¾Ğ±ÑŠĞµĞºÑ‚(Ğ¾Ğ²)\n";
+//	}
+//
+//	catch (std::runtime_error err)
+//	{
+//		cout << err.what() << "\n";
+//	}
+//
+//	catch (...)
+//	{
+//		cout << "ĞĞµĞ¸Ğ·Ğ²ĞµÑÑ‚Ğ½Ğ°Ñ Ğ¾ÑˆĞ¸Ğ±ĞºĞ°";
+//	}
+//
+//	in.close();
+//	cout << "\nĞĞ°Ğ¶Ğ¼Ğ¸Ñ‚Ğµ Ğ»ÑĞ±ÑƒÑ ĞºĞ»Ğ°Ğ²Ğ¸ÑˆÑƒ Ñ‡Ñ‚Ğ¾Ğ±Ñ‹ Ğ²ĞµÑ€Ğ½ÑƒÑ‚ÑÑ Ğ² Ğ¼ĞµĞ½Ñ \n";
+//	_getch();
+//} // 
 //???????????
 
 void Keeper::sort()
@@ -141,8 +192,7 @@ void Keeper::sort()
 	{
 		for (size_t j = i + 1; j < structureSize; j++)
 		{
-			int cmp = _stricmp(structure[i]->getPA().c_str(), structure[j]->getPA().c_str());
-			if (_stricmp(structure[i]->getPA().c_str(), structure[j]->getPA().c_str()) > 0)
+			if (structure[i]->getPA() > structure[j]->getPA())
 			{
 				temp = structure[i];
 				structure[i] = structure[j];
@@ -155,7 +205,7 @@ void Keeper::sort()
 
 void Keeper::printHead() 
 {
-	cout << "\033[47;30m" << setw(36) << "ÔÈÎ" << setw(30) << "Òåëåôîí" << setw(16) << "Äåíü ğîæäåíèÿ" << "\033[0m" << endl;
+	cout << "\033[47;30m" << setw(36) << "Ğ¤Ğ˜Ğ" << setw(30) << "Ğ¢ĞµĞ»ĞµÑ„Ğ¾Ğ½" << setw(16) << "Ğ”ĞµĞ½ÑŒ Ñ€Ğ¾Ğ¶Ğ´ĞµĞ½Ğ¸Ñ" << "\033[0m" << endl;
 }
 //?????????????///
 
@@ -164,8 +214,8 @@ bool Keeper::isEmpty()
 	if (structureSize > 0)
 		return 0;
 
-	cout << "Ñïèñîê ïóñò\n\n";
-	cout << "Íàæìèòå ëşáóş êëàâèøó ÷òîáû âåğíóòñÿ â ìåíş \n";
+	cout << "Ğ¡Ğ¿Ğ¸ÑĞ¾Ğº Ğ¿ÑƒÑÑ‚\n\n";
+	cout << "ĞĞ°Ğ¶Ğ¼Ğ¸Ñ‚Ğµ Ğ»ÑĞ±ÑƒÑ ĞºĞ»Ğ°Ğ²Ğ¸ÑˆÑƒ Ñ‡Ñ‚Ğ¾Ğ±Ñ‹ Ğ²ĞµÑ€Ğ½ÑƒÑ‚ÑÑ Ğ² Ğ¼ĞµĞ½Ñ \n";
 	_getch();
 
 	return 1;
@@ -186,7 +236,7 @@ void Keeper::print()
 		cout << "\n";
 	}
 
-	cout << "\nÍàæìèòå ëşáóş êëàâèøó \n";
+	cout << "\nĞĞ°Ğ¶Ğ¼Ğ¸Ñ‚Ğµ Ğ»ÑĞ±ÑƒÑ ĞºĞ»Ğ°Ğ²Ğ¸ÑˆÑƒ \n";
 	_getch();
 }
 
@@ -198,8 +248,8 @@ Order** Keeper::getStructure()
 
 int Keeper::getSize()
 {
-	return this->structureSize;
-	//return structureSize;
+	//return this->structureSize;
+	return structureSize;
 }
 
 Keeper::~Keeper()

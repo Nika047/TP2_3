@@ -2,7 +2,8 @@
 
 #include <string>
 #include <sstream>
-#include "utils.cpp"
+#include <algorithm>
+#include <fstream>
 
 using namespace std;
 
@@ -13,28 +14,39 @@ public:
 
 	Order(int* lines);
 
-	int setPA();
+	char setPA();
 	int getPA();
-	int setBA();
+	char setBA();
 	int getBA();
-	int setAmount();
+	char setAmount();
 	int getAmount();
 	void edit();
+	void write(ofstream& file) const;
 	string toString();
 
-	friend std::ofstream& operator<< (std::ofstream& file, const Order& order)
-	{
-		file << order.payers_account << "\n";
-		file << order.beneficiarys_account << "\n";
-		file << order.amount << "\n";
-		file << "\n";
+	void print();
 
+	friend ofstream& operator<< (ofstream& file, const Order& object)
+	{
+		object.write(file);
 		return file;
+
+		//out << object.payers_account << "\n";
+		//out << object.beneficiarys_account << "\n";
+		//out << object.amount << "\n";
 	}
+
+	//friend std::ofstream& operator<< (std::ofstream& file, const Order& note) 
+	//{
+	//	file << note.payers_account << "\n";
+	//	file << note.beneficiarys_account << "\n";
+	//	file << note.amount << "\n";
+
+	//	return file;
+	//}
 
 private:
 	int payers_account;
 	int beneficiarys_account;
 	int amount;
 };
-

@@ -4,7 +4,7 @@
 #include <fstream>
 #include <algorithm>
 #include <iomanip>
-#include "Note.h"
+#include "Order.h"
 
 using namespace std;
 
@@ -35,6 +35,6 @@ public:
 
 private:
 	Order** structure = {};
-	int /*size_t*/ structureSize = 0;
+	int structureSize = 0;
 	string fileName = "struct.txt";
 };
