@@ -14,11 +14,11 @@ public:
 
 	Order(int* lines);
 
-	char setPA();
+	void setPA();
 	int getPA();
-	char setBA();
+	void setBA();
 	int getBA();
-	char setAmount();
+	void setAmount();
 	int getAmount();
 	void edit();
 	void write(ofstream& file) const;

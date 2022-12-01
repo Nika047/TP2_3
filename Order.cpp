@@ -17,7 +17,7 @@ Order::Order(int* lines)
 	amount = lines[2];
 }
 
-char Order::setPA() 
+void Order::setPA() 
 {
 	cout << "Расчетный счет плательщика: ";
 	cin >> payers_account;
@@ -29,7 +29,7 @@ int Order::getPA()
 	return payers_account;
 }
 
-char Order::setBA()
+void Order::setBA()
 {
 	cout << "Расчетный счет получателя: ";
 	cin >> beneficiarys_account;
@@ -41,7 +41,7 @@ int Order::getBA()
 	return beneficiarys_account;
 }
 
-char Order::setAmount()
+void Order::setAmount()
 {
 	cout << "Введите перечисляемую сумму в рублях: ";
 	cin >> amount;

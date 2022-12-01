@@ -231,8 +231,8 @@ void Keeper::print()
 
 	for (size_t i = 0; i < getSize(); i++)
 	{
-		//cout << getStructure()[i] -> toString();
-		structure[i]->toString();
+		cout << getStructure()[i] -> toString();
+		//structure[i]->toString();
 		cout << "\n";
 	}
 
@@ -240,10 +240,12 @@ void Keeper::print()
 	_getch();
 }
 
+
+
 Order** Keeper::getStructure()
 {
-	return this->structure;
-	//return structure;
+	//return this->structure;
+	return structure;
 }
 
 int Keeper::getSize()
