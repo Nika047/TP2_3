@@ -61,14 +61,6 @@ void Order::edit()
 	cout << "\n";
 }
 
-//string Order::toString()
-//{
-//	stringstream str;
-//	str << payers_account << beneficiarys_account << amount << endl;
-//
-//	return str.str();
-//}
-
 void Order::print()
 {
 	cout << "Расчетный счет плательщика: " << payers_account << "\n";

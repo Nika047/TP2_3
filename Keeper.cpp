@@ -41,7 +41,6 @@ void Keeper::save()
 
 	if (out.is_open())
 	{
-		out << structureSize << "\n\n";
 		for (size_t i = 0; i < structureSize; i++)
 		{
 			out << *structure[i];
@@ -65,7 +64,7 @@ void Keeper::load()
 
 	try
 	{
-		const int strNums = 6;
+		const int strNums = 4;
 
 		if (!in.is_open())
 			throw std::runtime_error("Не удалось открыть файл");
@@ -202,7 +201,6 @@ void Keeper::sort()
 		}
 	}
 }
-//?????????????
 
 bool Keeper::isEmpty()
 {
@@ -227,7 +225,6 @@ void Keeper::print()
 	{
 		cout << "Номер: " << (i + 1) << "\n";
 		getStructure()[i] -> print();
-		//structure[i]->toString();
 		cout << "\n";
 	}
 
@@ -237,13 +234,11 @@ void Keeper::print()
 
 Order** Keeper::getStructure()
 {
-	//return this->structure;
 	return structure;
 }
 
 int Keeper::getSize()
 {
-	//return this->structureSize;
 	return structureSize;
 }
 

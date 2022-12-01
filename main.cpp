@@ -9,7 +9,10 @@ using namespace std;
 
 Keeper major;
 
-//void searchLoop();
+void menu();
+void first();
+int second();
+void findMenu();
 void editMenu();
 void removeMenu();
 
@@ -18,16 +21,49 @@ int main()
 	setlocale(LC_ALL, "Russian");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
+	menu();
+}
 
-	while (1) 
+void menu()
+{
+	cout << "Выберите действие: \n";
+	cout << "1. Проверка первого задания  \n";
+	cout << "2. Проверка второго задания  \n";
+	cout << "ESC. Выход  \n";
+	cout << "\nВыберите номер команды: ";
+
+	char command = _getch();
+	system("@cls||clear");
+
+	switch (command)
+	{
+	case '1':
+		first();
+		break;
+
+	case '2':
+		second();
+		break;
+
+	case 27:
+		exit(0);
+	default:
+		cout << "Такой команды не существует \n\n";
+	}
+}
+
+void first()
+{
+	while (1)
 	{
 		cout << "Меню: \n";
 		cout << "1. Открыть структуру \n";
 		cout << "2. Добавить структуру \n";
-		cout << "3. Редактировать \n";
-		cout << "4. Удалить \n";
-		cout << "5. Сохранить в файл \n";
-		cout << "6. Загрузить из файла \n";
+		cout << "3. Найти структуру по расчетному счету \n";
+		cout << "4. Редактировать \n";
+		cout << "5. Удалить \n";
+		cout << "6. Сохранить в файл \n";
+		cout << "7. Загрузить из файла \n";
 		cout << "ESC. Выход \n\n";
 		cout << "Выберите нужное действие: ";
 
@@ -45,18 +81,22 @@ int main()
 			break;
 
 		case '3':
-			editMenu();
+			findMenu();
 			break;
 
 		case '4':
-			removeMenu();
+			editMenu();
 			break;
 
 		case '5':
-			major.save();
+			removeMenu();
 			break;
 
 		case '6':
+			major.save();
+			break;
+
+		case '7':
 			major.load();
 			break;
 
@@ -67,37 +107,96 @@ int main()
 	}
 }
 
-//void searchLoop() {
-//	if (!check()) return;
-//
-//	int counter = 0;
-//	int mounth;
-//
-//	cout << "Введите месяц: ";
-//	cin >> mounth;
-//	cin.get();
-//
-//	major.sort();
-//	major.printHead();
-//
-//	for (size_t i = 0; i < major.getSize(); i++) {
-//		int currentMounth = major.getList()[i]->getBithday()[1];
-//		if (currentMounth == mounth) {
-//			cout << major.getList()[i]->toString() << endl;
-//			counter++;
-//		}
-//	}
-//
-//	if (!counter) {
-//		system("@cls||clear");
-//		cout << endl << "\033[31mНичего не найдено =(\033[0m" << endl;
-//
-//	}
-//
-//	cout << endl << "\033[35mНажмите любую клавишу чтобы вернутся в меню\033[0m" << endl;
-//
-//	cin.get();
-//}
+int second()
+{
+	ifstream fin("data.txt", ios::in | ios::binary);
+
+	if (!fin)
+	{
+		cout << "Не удалось открыть файл \n";
+		return 0;
+	}
+
+	fin.seekg(0, ios_base::end);
+	int fileSize = fin.tellg();
+	fin.seekg(0, ios_base::beg);
+
+	char* buffer = new char[fileSize + 1];
+	int max = 0, current = 0, current_start = 0, pos_start = 0, end = 0;
+
+	for (int i = 0; (buffer[i] = fin.get()) != EOF; i++)
+	{
+		if (buffer[i] == '\r')
+			buffer[i] = ' ';
+
+		if (buffer[i] == ',' || buffer[i] == ';' || buffer[i] == ':' || buffer[i] == '-' || 
+			buffer[i] == '"' || buffer[i] == '(' || buffer[i] == ')')
+			current++;
+
+		if (buffer[i] == '.' || buffer[i] == '?' || buffer[i] == '!')
+		{
+			if (current > max)
+			{
+				max = current;
+				pos_start = current_start;
+				end = i;
+			}
+			current = 0;
+			current_start = i + 1;
+		}
+	}
+
+	bool is_trimmed = 0;
+	for (int i = pos_start; i <= end; i++) 
+	{
+		if (!is_trimmed) 
+		{
+			if (buffer[i] == ' ')
+				continue;
+			
+			else
+				is_trimmed = 1;
+		}
+		cout << buffer[i];
+	}
+	cout << "\n";
+	return 0;
+}
+
+void findMenu() 
+{
+	if (major.isEmpty())
+		return;
+
+	int counter = 0;
+	int acc;
+
+	cout << "Введите расчетного счета плательщика: ";
+	cin >> acc;
+	cin.ignore();
+
+	major.sort();
+
+	for (size_t i = 0; i < major.getSize(); i++) 
+	{
+		int pacc = major.getStructure()[i]->getPA();
+		if (pacc == acc)
+		{
+			cout << "\n";
+			major.getStructure()[i]->print();
+			counter++;
+		}
+	}
+
+	if (!counter) 
+	{
+		system("@cls||clear");
+		cout << "\n" << "Ничего не найдено" << "\n";
+	}
+
+	cout << "Нажмите любую клавишу\n";
+	cin.get();
+}
 
 void editMenu() 
 {

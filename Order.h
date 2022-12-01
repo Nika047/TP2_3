@@ -22,7 +22,6 @@ public:
 	int getAmount();
 	void edit();
 	void write(ofstream& file) const;
-	//string toString();
 
 	void print();
 
@@ -30,20 +29,7 @@ public:
 	{
 		object.write(file);
 		return file;
-
-		//out << object.payers_account << "\n";
-		//out << object.beneficiarys_account << "\n";
-		//out << object.amount << "\n";
 	}
-
-	//friend std::ofstream& operator<< (std::ofstream& file, const Order& note) 
-	//{
-	//	file << note.payers_account << "\n";
-	//	file << note.beneficiarys_account << "\n";
-	//	file << note.amount << "\n";
-
-	//	return file;
-	//}
 
 private:
 	int payers_account;
