@@ -1,6 +1,7 @@
 ﻿#include "Keeper.h"
 #include <conio.h>
 #include "Order.h"
+#include <fstream>
 
 Keeper::Keeper() {}
 
@@ -40,7 +41,7 @@ void Keeper::save()
 
 	if (out.is_open())
 	{
-		out << structureSize << "\n";
+		out << structureSize << "\n\n";
 		for (size_t i = 0; i < structureSize; i++)
 		{
 			out << *structure[i];
@@ -203,12 +204,6 @@ void Keeper::sort()
 }
 //?????????????
 
-void Keeper::printHead() 
-{
-	cout << "\033[47;30m" << setw(36) << "ФИО" << setw(30) << "Телефон" << setw(16) << "День рождения" << "\033[0m" << endl;
-}
-//?????????????///
-
 bool Keeper::isEmpty()
 {
 	if (structureSize > 0)
@@ -227,20 +222,18 @@ void Keeper::print()
 		return;
 
 	sort();
-	printHead();
 
 	for (size_t i = 0; i < getSize(); i++)
 	{
-		cout << getStructure()[i] -> toString();
+		cout << "Номер: " << (i + 1) << "\n";
+		getStructure()[i] -> print();
 		//structure[i]->toString();
 		cout << "\n";
 	}
 
-	cout << "\nНажмите любую клавишу \n";
+	cout << "Нажмите любую клавишу \n";
 	_getch();
 }
-
-
 
 Order** Keeper::getStructure()
 {

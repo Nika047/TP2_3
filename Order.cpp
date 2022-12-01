@@ -55,52 +55,25 @@ int Order::getAmount()
 
 void Order::edit() 
 {
-	while (1)
-	{
-		cout << "Меню: \n";
-		cout << "1. Расчетный счет плательщика \n";
-		cout << "2. Расчетный счет получателя \n";
-		cout << "3. Перечисляемая сумма в рублях \n";
-		cout << "ESC. Выход \n\n";
-		cout << "Выберите нужное действие: ";
-
-		char command = _getch();
-		system("@cls||clear");
-
-		switch (command)
-		{
-		case '1':
-			setPA();
-
-		case '2':
-			setBA();
-
-		case '3':
-			setAmount();
-
-		case 27:
-			exit(0);
-
-		default:
-			return;
-		}
-		//system("@cls||clear");
-	}
+	setPA();
+	setBA();
+	setAmount();
+	cout << "\n";
 }
 
-string Order::toString()
-{
-	stringstream str;
-	str << setw(36) << payers_account << setw(30) << beneficiarys_account << setw(16) << to_string(amount) << endl;
-
-	return str.str();
-}
+//string Order::toString()
+//{
+//	stringstream str;
+//	str << payers_account << beneficiarys_account << amount << endl;
+//
+//	return str.str();
+//}
 
 void Order::print()
 {
 	cout << "Расчетный счет плательщика: " << payers_account << "\n";
-	cout << "Расчетный счет получателя: " << beneficiarys_account << "\n";;
-	cout << "Перечисляемая сумма в рублях: " << amount << "\n";;
+	cout << "Расчетный счет получателя: " << beneficiarys_account << "\n";
+	cout << "Перечисляемая сумма в рублях: " << amount << "\n";
 }
 
 void Order::write(ofstream& file) const

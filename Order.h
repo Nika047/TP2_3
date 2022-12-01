@@ -22,7 +22,7 @@ public:
 	int getAmount();
 	void edit();
 	void write(ofstream& file) const;
-	string toString();
+	//string toString();
 
 	void print();
 
