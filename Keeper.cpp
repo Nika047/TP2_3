@@ -5,30 +5,30 @@ Keeper::Keeper() {}
 
 void Keeper::add(Order* element)
 {
-	Order** newList = new Order * [structureSize + 1];
+	Order** newStructure = new Order * [structureSize + 1];
 
 	for (int i = 0; i < structureSize; i++)
-		newList[i] = structure[i];
+		newStructure[i] = structure[i];
 
-	newList[structureSize++] = element;
+	newStructure[structureSize++] = element;
 	delete[] structure;
-	structure = newList;
+	structure = newStructure;
 }
 
 void Keeper::remove(int number)
 {
-	Order** newList = new Order * [structureSize - 1];
+	Order** newStructure = new Order * [structureSize - 1];
 
-	int index = 0;
+	int num = 0;
 	for (int i = 0; i < structureSize; i++)
 	{
 		if (i == number)
 			continue;
-		newList[index] = structure[i];
-		index++;
+		newStructure[num] = structure[i];
+		num++;
 	}
 	delete[] structure;
-	structure = newList;
+	structure = newStructure;
 	structureSize--;
 }
 
@@ -40,10 +40,8 @@ void Keeper::save()
 	if (out.is_open())
 	{
 		for (size_t i = 0; i < structureSize; i++)
-		{
-			out << *structure[i];
-			out << "\n";
-		}
+			out << *structure[i] << "\n";
+
 		cout << "Сохранено!\n";
 	}
 
@@ -51,54 +49,53 @@ void Keeper::save()
 		cout << "Не удалось открыть файл!";
 
 	out.close();
-	cout << endl << "Нажмите любую клавишу чтобы вернутся в меню\n";
+	cout << "\nНажмите любую клавишу чтобы вернутся в меню\n";
 	_getch();
 }
 
 void Keeper::load()
 {
-	int line;
-	ifstream in("struct.txt");
+	string k;
+	ifstream in(fileName);
 
 	try
 	{
-		const int strNums = 4;
+		const int strCounter = 4;
 
 		if (!in.is_open())
 			throw std::runtime_error("Не удалось открыть файл");
 
-		int numberOfLines = count(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>(), '\n');
-		if (numberOfLines <= 0 || numberOfLines % strNums != 0)
+		int counterK = count(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>(), '\n');
+		if (counterK <= 0 || counterK % strCounter != 0)
 			throw std::runtime_error("Файл пуст или поврежден");
 
 		in.seekg(0);
 
-		int lineNum = 0;
-		Order** newList = new Order * [(int)numberOfLines / strNums];
-		int lines[strNums];
+		int strokCounter = 0;
+		Order** newList = new Order * [(int)counterK / strCounter];
+		string strok[strCounter];
 
-		while (in >> line)
+		while (getline(in, k))
 		{
-			int str = line;
+			string str = k;
 
-			lines[(lineNum++) % strNums] = str;
+			strok[(strokCounter++) % strCounter] = str;
 
-			int pos = lineNum / strNums - 1;
+			int pos = strokCounter / strCounter - 1;
 
-			if (lineNum % strNums == 0)
-				newList[pos] = new Order(lines);
+			if (strokCounter % strCounter == 0)
+				newList[pos] = new Order(strok);
 		}
 
 		delete[]structure;
 		structure = newList;
-		structureSize = (int)numberOfLines / strNums;
-
+		structureSize = (int)counterK / strCounter;
 		cout << "Успешно загруженo";
 	}
 
 	catch (std::runtime_error err)
 	{
-		cout << err.what() << endl;
+		cout << err.what() << "\n";
 	}
 
 	catch (...)
@@ -108,80 +105,9 @@ void Keeper::load()
 
 	in.close();
 
-	cout << endl << "\nНажмите любую клавишу чтобы вернутся в меню \n";
+	cout << "\n\nНажмите любую клавишу чтобы вернутся в меню \n";
 	cin.get();
 }
-
-//void Keeper::load() // ???????????????
-//{
-//	string line;
-//	ifstream in(fileName);
-//
-//	try
-//	{
-//		if (!in.is_open())
-//			throw std::runtime_error("Не удалось открыть файл");
-//
-//		getline(in, line);
-//
-//		int structCount = stoi(line);
-//		if (structCount <= 0)
-//			throw std::runtime_error("Файл пуст или поврежден");
-//
-//		int counter = 0;
-//		Order** newList = new Order * [structCount];
-//
-////			const int strNums = 6;
-////
-////			if (!in.is_open()) throw std::runtime_error("Не удалось открыть файл.");
-////
-////			int numberOfLines = count(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>(), '\n'); // считаем количесвто строк в файле
-////			if (numberOfLines <= 0 || numberOfLines % strNums != 0) throw std::runtime_error("Файл поврежден!");
-////
-////			in.seekg(0);
-////
-////			int lineNum = 0;
-////			Note **newList = new Note*[(int) numberOfLines / strNums];
-////			string lines[strNums];
-//
-//		while (getline(in, line))
-//		{
-//			if (string("Мебель") == line)
-//				newList[counter++] = new Order(in);
-//		}
-//			//			{
-//			//				string str = line;
-//			//
-//			//				lines[(lineNum++) % strNums] = str;
-//			//				
-//			//				int pos = lineNum / strNums - 1;
-//			//
-//			//				if (lineNum % strNums == 0) {
-//			//					newList[pos] = new Note(lines);
-//			//				}
-//			//			}
-//
-//		delete[]structure;
-//		structure = newList;
-//		structureSize = structCount;
-//		cout << "Успешно загружен(о) " << structureSize << " объект(ов)\n";
-//	}
-//
-//	catch (std::runtime_error err)
-//	{
-//		cout << err.what() << "\n";
-//	}
-//
-//	catch (...)
-//	{
-//		cout << "Неизвестная ошибка";
-//	}
-//
-//	in.close();
-//	cout << "\nНажмите любую клавишу чтобы вернутся в меню \n";
-//	_getch();
-//} // 
-//???????????
 
 void Keeper::sort()
 {
@@ -226,7 +152,7 @@ void Keeper::print()
 		cout << "\n";
 	}
 
-	cout << "Нажмите любую клавишу \n";
+	cout << "Нажмите любую клавишу чтобы вернутся в меню \n";
 	_getch();
 }
 

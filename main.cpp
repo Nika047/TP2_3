@@ -9,9 +9,9 @@ using namespace std;
 
 Keeper major;
 
+int second();
 void menu();
 void first();
-int second();
 void findMenu();
 void editMenu();
 void removeMenu();
@@ -48,6 +48,7 @@ void menu()
 
 	case 27:
 		exit(0);
+
 	default:
 		cout << "Такой команды не существует \n\n";
 	}
@@ -115,7 +116,7 @@ void first()
 
 int second()
 {
-	ifstream fin("data.txt", ios::in | ios::binary);
+	ifstream fin("db.txt", ios::in | ios::binary);
 
 	if (!fin)
 	{
@@ -197,10 +198,10 @@ void findMenu()
 	if (!counter) 
 	{
 		system("@cls||clear");
-		cout << "\n" << "Ничего не найдено" << "\n";
+		cout << "\nНичего не найдено \n";
 	}
 
-	cout << "Нажмите любую клавишу\n";
+	cout << "\nНажмите любую клавишу чтобы вернутся в меню\n";
 	cin.get();
 }
 
@@ -220,22 +221,21 @@ void editMenu()
 			cout << "\n";
 		}
 
-		int num;
-
+		int k;
 		cout << "\nВведите номер объекта: ";
-		cin >> num;
+		cin >> k;
 		cin.ignore();
 
-		if (num < 1 || num > major.getSize())
+		if (k < 1 || k > major.getSize())
 		{
 			cout << "\nТакого объекта нет \n";
-			cout << "\"nНажмите любую клавишу \n";
+			cout << "\"nНажмите любую клавишу чтобы вернутся в меню \n";
 			_getch();
 			continue;
 		}
 
 		system("@cls||clear");
-		major.getStructure()[num - 1]->edit();
+		major.getStructure()[k - 1]->edit();
 		return;
 	}
 }
@@ -256,21 +256,21 @@ void removeMenu()
 			cout << "\n";
 		}
 
-		int num;
+		int k;
 		cout << "\nВведите номер объекта: ";
-		cin >> num;
+		cin >> k;
 		cin.ignore();
 
-		if (num < 1 || num > major.getSize())
+		if (k < 1 || k > major.getSize())
 		{
 			cout << "\nТакого объекта нет \n";
-			cout << "\nНажмите любую клавишу \n";
+			cout << "\nНажмите любую клавишу чтобы вернутся в меню \n";
 			_getch();
 			continue;
 		}
 
 		system("@cls||clear");
-		major.remove(num - 1);
+		major.remove(k - 1);
 		return;
 	}
 }
@@ -291,26 +291,25 @@ void repeatMenu()
 			cout << "\n";
 		}
 
-		int num;
-
-		cout << "Введите номер объекта: ";
-		cin >> num;
+		int k;
+		cout << "\nВведите номер объекта: ";
+		cin >> k;
 		cin.ignore();
 
-		if (num < 1 || num > major.getSize()) 
+		if (k < 1 || k > major.getSize()) 
 		{
 			cout << "\nТакого объекта нет \n";
-			cout << "\nНажмите любую клавишу \n";
+			cout << "\nНажмите любую клавишу чтобы вернутся в меню \n";
 			_getch();
 
 			continue;
 		}
 
 		system("@cls||clear");
-		major.getStructure()[num - 1]->print();
+		major.getStructure()[k - 1]->print();
 
-		int PAorder = major.getStructure()[num - 1]->getPA();
-		int BAorder = major.getStructure()[num - 1]->getBA();
+		int PAorder = major.getStructure()[k - 1]->getPA();
+		int BAorder = major.getStructure()[k - 1]->getBA();
 
 		major.add(new Order(PAorder, BAorder));
 		cout << "\nДобавлено";

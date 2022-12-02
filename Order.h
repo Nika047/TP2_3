@@ -13,7 +13,7 @@ class Order
 {
 public: 
 	Order();
-	Order(int* lines);
+	Order(string* lines);
 	Order(int PA, int BA);
 
 	void setPA();

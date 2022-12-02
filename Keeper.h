@@ -14,17 +14,16 @@ class Keeper
 public:
 	Keeper();
 
-	void add(Order* element);
-	void remove(int number);
+	bool isEmpty();
+	int getSize();
 	void save();
-	void load(); //????????
+	void load();
 	void sort();
 	void print();
-	bool isEmpty();
+	void remove(int number);
+	void add(Order* element);
 
 	Order** getStructure();
-
-	int getSize();
 
 	~Keeper();
 

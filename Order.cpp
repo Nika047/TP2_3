@@ -7,11 +7,11 @@ Order::Order()
 	setAmount();
 }
 
-Order::Order(int* lines) 
+Order::Order(string* lines)
 {
-	payers_account = lines[0];
-	beneficiarys_account = lines[1];
-	amount = lines[2];
+	payers_account = stoi(lines[0]);
+	beneficiarys_account = stoi(lines[1]);
+	amount = stoi(lines[2]);
 }
 
 Order::Order(int PA, int BA) 
