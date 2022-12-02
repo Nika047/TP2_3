@@ -1,9 +1,11 @@
 #pragma once
-
 #include <string>
 #include <sstream>
 #include <algorithm>
 #include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <conio.h>
 
 using namespace std;
 
