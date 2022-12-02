@@ -19,7 +19,6 @@ public:
 	void load(); //????????
 	void sort();
 	void print();
-	void printHead();
 	bool isEmpty();
 
 	Order** getStructure();

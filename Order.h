@@ -11,8 +11,8 @@ class Order
 {
 public: 
 	Order();
-
 	Order(int* lines);
+	Order(int PA, int BA);
 
 	void setPA();
 	int getPA();
@@ -21,9 +21,8 @@ public:
 	void setAmount();
 	int getAmount();
 	void edit();
-	void write(ofstream& file) const;
-
 	void print();
+	void write(ofstream& file) const;
 
 	friend ofstream& operator<< (ofstream& file, const Order& object)
 	{

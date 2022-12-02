@@ -17,6 +17,13 @@ Order::Order(int* lines)
 	amount = lines[2];
 }
 
+Order::Order(int PA, int BA) 
+{
+	payers_account = PA;
+	beneficiarys_account = BA;
+	setAmount();
+}
+
 void Order::setPA() 
 {
 	cout << "Расчетный счет плательщика: ";

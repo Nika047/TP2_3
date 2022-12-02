@@ -15,6 +15,7 @@ int second();
 void findMenu();
 void editMenu();
 void removeMenu();
+void repeatMenu();
 
 int main()
 {
@@ -60,10 +61,11 @@ void first()
 		cout << "1. Открыть структуру \n";
 		cout << "2. Добавить структуру \n";
 		cout << "3. Найти структуру по расчетному счету \n";
-		cout << "4. Редактировать \n";
-		cout << "5. Удалить \n";
-		cout << "6. Сохранить в файл \n";
-		cout << "7. Загрузить из файла \n";
+		cout << "4. Повторить платеж \n";
+		cout << "5. Редактировать \n";
+		cout << "6. Удалить \n";
+		cout << "7. Сохранить в файл \n";
+		cout << "8. Загрузить из файла \n";
 		cout << "ESC. Выход \n\n";
 		cout << "Выберите нужное действие: ";
 
@@ -85,18 +87,22 @@ void first()
 			break;
 
 		case '4':
-			editMenu();
+			repeatMenu();
 			break;
 
 		case '5':
-			removeMenu();
+			editMenu();
 			break;
 
 		case '6':
-			major.save();
+			removeMenu();
 			break;
 
 		case '7':
+			major.save();
+			break;
+
+		case '8':
 			major.load();
 			break;
 
@@ -265,6 +271,50 @@ void removeMenu()
 
 		system("@cls||clear");
 		major.remove(num - 1);
+		return;
+	}
+}
+
+void repeatMenu() 
+{
+	if (major.isEmpty()) 
+		return;
+
+	while (1) 
+	{
+		system("@cls||clear");
+
+		for (int i = 0; i < major.getSize(); i++) 
+		{
+			cout << "Номер: " << (i + 1) << "\n";
+			major.getStructure()[i]->print();
+			cout << "\n";
+		}
+
+		int num;
+
+		cout << "Введите номер объекта: ";
+		cin >> num;
+		cin.ignore();
+
+		if (num < 1 || num > major.getSize()) 
+		{
+			cout << endl << "Такого объекта нет" << endl;
+
+			cout << endl << "Нажмите любую клавишу";
+			_getch();
+
+			continue;
+		};
+
+		system("@cls||clear");
+		major.getStructure()[num - 1]->print();
+		int PAold = major.getStructure()[num - 1]->getPA();
+		int BAold = major.getStructure()[num - 1]->getBA();
+		system("@cls||clear");
+		major.add(new Order(PAold, BAold));
+		cout << endl << "Добавлено";
+		_getch();
 		return;
 	}
 }
