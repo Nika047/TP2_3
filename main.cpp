@@ -299,21 +299,21 @@ void repeatMenu()
 
 		if (num < 1 || num > major.getSize()) 
 		{
-			cout << endl << "Такого объекта нет" << endl;
-
-			cout << endl << "Нажмите любую клавишу";
+			cout << "\nТакого объекта нет \n";
+			cout << "\nНажмите любую клавишу \n";
 			_getch();
 
 			continue;
-		};
+		}
 
 		system("@cls||clear");
 		major.getStructure()[num - 1]->print();
-		int PAold = major.getStructure()[num - 1]->getPA();
-		int BAold = major.getStructure()[num - 1]->getBA();
-		system("@cls||clear");
-		major.add(new Order(PAold, BAold));
-		cout << endl << "Добавлено";
+
+		int PAorder = major.getStructure()[num - 1]->getPA();
+		int BAorder = major.getStructure()[num - 1]->getBA();
+
+		major.add(new Order(PAorder, BAorder));
+		cout << "\nДобавлено";
 		_getch();
 		return;
 	}
